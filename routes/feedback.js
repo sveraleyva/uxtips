@@ -1,14 +1,14 @@
-const fb = require('express').Router();
-const { readAndAppend } = require('../helpers/fsUtils');
-const uuid = require('../helpers/uuid');
+const fb = require("express").Router();
+const { readAndAppend } = require("../../helpers/fsUtils");
+const uuid = require("../../helpers/uuid");
 
 // GET Route for retrieving all the feedback
-fb.get('/', (req, res) =>
-  readFromFile('./db/feedback.json').then((data) => res.json(JSON.parse(data)))
+fb.get("/", (req, res) =>
+  readFromFile("./db/feedback.json").then((data) => res.json(JSON.parse(data)))
 );
 
 // POST Route for submitting feedback
-fb.post('/', (req, res) => {
+fb.post("/", (req, res) => {
   // Destructuring assignment for the items in req.body
   const { email, feedbackType, feedback } = req.body;
 
@@ -22,16 +22,16 @@ fb.post('/', (req, res) => {
       feedback_id: uuid(),
     };
 
-    readAndAppend(newFeedback, './db/feedback.json');
+    readAndAppend(newFeedback, "./db/feedback.json");
 
     const response = {
-      status: 'success',
+      status: "success",
       body: newFeedback,
     };
 
     res.json(response);
   } else {
-    res.json('Error in posting feedback');
+    res.json("Error in posting feedback");
   }
 });
 
